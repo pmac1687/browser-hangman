@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>hangman</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <div class='grid-container'>
+        <div class='item1' id='alpha'>abcdefghijklmnopqrstuvwxyz</div>
+        <div class="item2" id='head' style='transform: translate(50px,40px);'></div>
+        <div class="item1">type one letter guess and click enter</div>
+        <div class='item3' id='body'>_______________</div>
+        <div class='item1' id='solution' style='text-decoration:underline'></div>
+        <div class='item4' id='rArm'>__________</div>
+        <div class='item1'><textarea id='enter'></textarea></div>
+        <div class='item4' id='lArm'>__________</div>
+        <div class='item1'><button id='send-thoughts' onclick="check()">enter</button><button onclick="start()">restart</button></div>
+        <div class='item4' id='rLeg'>__________</div>
+        <div class='item1'></div>
+        <div class='item4' id='lLeg'>__________</div>
+</body>
+</html>
+<script>
+    var wordlist = ['develop','browser','java','user','client','web','laptop','screen','keyboard','hyper'];
+    var word = wordlist[Math.floor(Math.random() * 10)];
+    for (i=0; i<word.length; i++) {
+        const p = document.createElement('p');
+        p.innerHTML = word[i];
+        p.id = word[i];
+        p.style.visibility = 'hidden';
+        document.getElementById('solution').appendChild(p);
+    }
+    var chances = 5;
+    var bodyParts = ['head','body','lArm','rArm','lLeg','rLeg'];
+    function check() {
+        if (chances > -1) {
+            var guess = document.getElementById('enter').value;
+            if (guess.length > 1) {
+                guess = '';
+                alert('guess can only be one letter')
+            }
+            else {
+                var solution = document.getElementById('solution').innerHTML;
+                var pos = word.indexOf(guess);
+                if (pos !== -1) {
+                    document.getElementById(guess).style.visibility= 'visible';
+                    document.getElementById('alpha').innerHTML= document.getElementById('alpha').innerHTML.replace(guess,' ');
+                    document.getElementById('enter').value = '';
+
+                }
+                else {
+                    document.getElementById(bodyParts[chances]).style.visibility = 'visible';
+                    chances--
+                    document.getElementById('alpha').innerHTML= document.getElementById('alpha').innerHTML.replace(guess,' ');
+                    document.getElementById('enter').value = ''
+
+
+
+                }
+            }
+            
+        }
+        else {
+            alert('Game Over, 
+            
+            
+            your word was: ' + word);
+        }
+       
+    }
+    function start() {
+        location.reload();
+    }
+    window.onerror = function (msg,url,line)
+{
+    alert('message: ' + msg);
+    alert('url : ' + url);
+    alert('line number : ' + line);
+}        
+    
+
+</script>
